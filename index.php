@@ -7,24 +7,24 @@ $age=readline("inter your age: ");
 	{
 
 	case ($age===0):
-			findFilm($movies,$age);
+			findMovies($movies,$age);
 			break;
 		case($age>0 && $age<12):
-			findFilm($movies,$age);
+			findMovies($movies,$age);
 		break;
 		case($age>0 && $age<=14):
-			findFilm($movies,$age);
+			findMovies($movies,$age);
 			break;
 		case($age>0 && $age<=16):
-			findFilm($movies,$age);
+			findMovies($movies,$age);
 			break;
 		case($age>0 && $age>=18):
-			findFilm($movies,$age);
+			findMovies($movies,$age);
 			break;
 		default:
 			echo "Enter currect age!";
 	}
-function findFilm(array $movies,int $age): void
+function findMovies(array $movies,int $age): void
 {
 	$i=1;
 foreach ($movies as $movie){
