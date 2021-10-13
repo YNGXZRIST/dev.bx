@@ -7,8 +7,7 @@ $movies = [
         "duration" => 144,
         "age_restriction" => 16,
         "rating" => 9.3
-    ],
-    [
+    ],    [
         "title" => "The Godfather",
         "release_year" => 1972,
         "duration" => 175,
