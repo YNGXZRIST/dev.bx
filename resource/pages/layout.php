@@ -2,14 +2,15 @@
 
 /** @var array $movies */
 /** @var string $content */
-require_once "../db/movies.php";
-require_once "../../lib/help-func.php";
+require_once "./resource/db/movies.php";
+require_once "./lib/helper-function.php";
 
 ?>
+
 <!doctype html>
 <html lang="ru">
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="../css/reset.css">
+<link rel="stylesheet" href="./resource/css/style.css">
+<link rel="stylesheet" href="./resource/css/reset.css">
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
@@ -20,53 +21,87 @@ require_once "../../lib/help-func.php";
 <div class="wrapper">
 	<div class="sidebar">
 		<div class="logo">
-			<p><img src="../image/BITFLIX.png" alt="BITFLIX"></p>
+			<p><img src="./resource/image/BITFLIX.png" alt="BITFLIX"></p>
 		</div>
+		<ul class="menu">
+			<li class="menu-item">
 
-		<div class="menu">
+				<?php
+				$currentPage = ((!empty($_SERVER['HTTPS'])) ? 'https' : 'http')
+					. '://'
+					. $_SERVER['HTTP_HOST']
+					. $_SERVER['REQUEST_URI']; ?>
+				<?php
+				if ($currentPage == "http://dev.bx/index.php"): ?>
 			<li class="menu-item">
-				<a href="#link1">Главная</a>
+				<a href="index.php" class="menu-item--active">Главная</a>
 			</li>
-			<li class="menu-item">
-				<a href="#link2"> Сериалы</a>
-			</li>
-			<li class="menu-item">
-				<a href="#link3">Фильмы</a>
-			</li>
-			<li class="menu-item">
-				<a href="#link4"> Новинки и популярное</a>
-			</li>
-			<li class="menu-item">
-				<a href="#link5">Мой список</a>
-			</li>
-		</div>
+			<?php
+			else: ?>
+				<li class="menu-item">
+					<a href="index.php">Главная</a>
+				</li>
+			<?php
+			endif; ?>
+
+			<?php
+			foreach ($genres as $genre): ?>
+				<?php
+				if ($_GET['genre'] == $genre) : ?>
+					<li class="menu-item">
+						<a href="genre.php?genre=<?= $genre ?>" class="menu-item--active">
+							<?= $genre ?>
+						</a>
+					</li>
+				<?
+				else: ?>
+
+					<li class="menu-item">
+						<a href="genre.php?genre=<?= $genre ?>"><?= $genre ?></a>
+					</li>
+				<?php
+				endif; ?>
+			<?php
+			endforeach; ?>
+			<?php
+			if ($currentPage == "http://dev.bx/process-page.php"): ?>
+				<li class="menu-item">
+					<a href="index.php" class="menu-item--active">ИЗБРАННОЕ</a>
+				</li>
+			<?php
+			else: ?>
+				<li class="menu-item">
+					<a href="./process-page.php">ИЗБРАННОЕ</a>
+				</li>
+			<?php
+			endif; ?>
+		</ul>
 	</div>
 	<div class="container">
 		<div class="header">
 			<div class="search">
-				<div class="loupe">
-					<p><img src="../image/Search.png" alt="search"></p>
-				</div>
-				<p><input name="catalog search" placeholder="Поиск по каталогу..."></p>
+				<form action="./find-movie.php" method="post" style="display: inline-flex;  align-items: center;">
+					<div class="loupe">
+						<img src="./resource/image/Search.png" alt="search">
+
+					</div>
+					<p><input name="title" placeholder="Поиск по каталогу..."></p>
 
 			</div>
 			<div class="header-button">
-				<form action="#link6" target="_blank">
-					<button id="SearchButton">Искать</button>
-				</form>
-				<form action="#link7" target="_blank">
-					<button id="AddMovie">Добавить фильм</button>
-				</form>
+
+				<button id="SearchButton">Искать</button>
+
+				<a href="process-page.php" class="AddMovie-button">ДОБАВИТЬ ФИЛЬМ</a>
 			</div>
 
 
 		</div>
 		<div class="content">
-						<?=$content; ?>
-
-
-
+			<?= $content ?>
 		</div>
+	</div>
+</div>
 
 </body>
 </html>

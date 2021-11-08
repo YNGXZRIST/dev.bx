@@ -1,5 +1,5 @@
 <?php
-require_once "../../lib/help-func.php";
+require_once "./lib/helper-function.php";
 /** @var array $movies */
 ?>
 <div class="movie-list">
@@ -10,7 +10,7 @@ require_once "../../lib/help-func.php";
 		as $movie
 	): ?>
 
-		<?= renderTemplate("../blocks/_movie-list.php", [
+		<?= renderTemplate("./resource/blocks/_movie-list.php", [
 			'movies' => $movies,
 			'movie' => $movie,
 		]); ?>
