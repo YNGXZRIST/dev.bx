@@ -12,12 +12,6 @@ if (isset($_GET['genre']))
 	$movieListPage = renderTemplate("./resource/pages/movie-list.php", [
 		'movies' => $movies
 	]);
-
-	renderLayout($movieListPage,[
-		'movies' => $movies,
-		'genres'=>$genres,
-		'config'=>$config
-	]);
 }
 
 $movieListPage = renderTemplate("./resource/pages/movie-list.php", [
