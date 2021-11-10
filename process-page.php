@@ -9,5 +9,6 @@ $movieListPage = renderTemplate("./resource/pages/in_process.php", [
 ]);
 
 renderLayout($movieListPage,[
-	'genres'=>$genres
+	'genres'=>$genres,
+	'currentPage'=>'in_work'
 ]);

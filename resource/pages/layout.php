@@ -2,6 +2,7 @@
 
 /** @var array $movies */
 /** @var string $content */
+/** @var string $currentMenuItem */
 require_once "./resource/db/movies.php";
 require_once "./lib/helper-function.php";
 
@@ -26,30 +27,24 @@ require_once "./lib/helper-function.php";
 		<ul class="menu">
 			<li class="menu-item">
 
+
 				<?php
-				$currentPage = ((!empty($_SERVER['HTTPS'])) ? 'https' : 'http')
-					. '://'
-					. $_SERVER['HTTP_HOST']
-					. $_SERVER['REQUEST_URI']; ?>
-				<?php
-				if ($currentPage == "http://dev.bx/index.php"): ?>
+				if ($currentPage === "index"): ?>
 			<li class="menu-item">
 				<a href="index.php" class="menu-item--active">Главная</a>
 			</li>
 			<?php
 			else: ?>
-				<li class="menu-item">
-					<a href="index.php">Главная</a>
-				</li>
+			<li class="menu-item">
+				<a href="index.php">Главная</a>
+			</li>
 			<?php
 			endif; ?>
-
-			<?php
-			foreach ($genres as $genre): ?>
+			<?php foreach ($genres as $genre): ?>
 				<?php
-				if ($_GET['genre'] == $genre) : ?>
+				if ($_GET['genre'] === $genre) : ?>
 					<li class="menu-item">
-						<a href="genre.php?genre=<?= $genre ?>" class="menu-item--active">
+						<a href="index.php?genre=<?= $genre ?>" class="menu-item--active">
 							<?= $genre ?>
 						</a>
 					</li>
@@ -57,22 +52,23 @@ require_once "./lib/helper-function.php";
 				else: ?>
 
 					<li class="menu-item">
-						<a href="genre.php?genre=<?= $genre ?>"><?= $genre ?></a>
+						<a href="index.php?genre=<?= $genre ?>"><?= $genre ?></a>
 					</li>
 				<?php
 				endif; ?>
 			<?php
 			endforeach; ?>
+
 			<?php
-			if ($currentPage == "http://dev.bx/process-page.php"): ?>
-				<li class="menu-item">
-					<a href="index.php" class="menu-item--active">ИЗБРАННОЕ</a>
-				</li>
+				if ($currentPage === "in_work"): ?>
+				<li class=" menu-item">
+				<a href="index.php" class="menu-item--active">ИЗБРАННОЕ</a>
+			</li>
 			<?php
 			else: ?>
-				<li class="menu-item">
-					<a href="./process-page.php">ИЗБРАННОЕ</a>
-				</li>
+			<li class="menu-item">
+				<a href="./process-page.php">ИЗБРАННОЕ</a>
+			</li>
 			<?php
 			endif; ?>
 		</ul>

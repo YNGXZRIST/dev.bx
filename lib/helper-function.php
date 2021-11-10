@@ -1,71 +1,47 @@
 <?php
 require_once "./resource/db/movies.php";
 
-function getMovieTitle(array $movies, int $id): string
+
+
+function CutMovieDescription(string $description): string
 {
-	if (isset($movies))
+	if (isset($description))
 	{
-		foreach ($movies as $movie)
-		{
-			if ($movie["id"] == $id)
-			{
-				return $movie['title'];
-			}
-		}
+
+		$description = mb_strimwidth($description, 0, 200, "...");
+
+				return $description;
+
+
 	}
-	return "add movies to array";
+	return "description is empty";
 }
 
-function getAndCutMovieDescription(array $movies, int $id): string
+function getMovieGenres(array $movie): string
 {
-	if (isset($movies))
+	if (isset($movie))
 	{
-		foreach ($movies as $movie)
-		{
-			if ($movie["id"] == $id)
-			{
-				$movie["description"] = mb_strimwidth($movie['description'], 0, 100, "...");
 
-				return $movie['description'];
-			}
-		}
-	}
-	return "add movies to array";
-}
-
-function getMovieGenres(array $movies, int $id): string
-{
-	if (isset($movies))
-	{
-		foreach ($movies as $movie)
-		{
-			if ($movie["id"] == $id)
-			{
 				$str = implode(",", $movie['genres']);
 				$str = mb_strimwidth($str, 0, 30, "...");
 
 				return $str;
-			}
-		}
+
 	}
-	return "add movies to array";
+	return " genres not found";
 }
 
-function formatMovieDuration(array $movies, int $id): string
+function formatMovieDuration(string $duration): string
 {
-	if (isset($movies))
+	if (isset($duration))
 	{
-		foreach ($movies as $movie)
-		{
-			if ($movie["id"] == $id)
-			{
-				$hours = (string)date('G:i', mktime(0, $movie['duration']));
-				$minutes = (string)$movie['duration'];
+
+				$hours = (string)date('G:i', mktime(0, $duration));
+				$minutes = (string)$duration;
 				return "$minutes" . " мин. / " . "$hours";
-			}
-		}
+
 	}
-	return "add movies to array";
+	return "duration is empty";
 }
 function getFilmsByGenre(array $movies, string $genres)
 {
@@ -76,18 +52,20 @@ function getFilmsByGenre(array $movies, string $genres)
 		});
 	}
 }
-function getMovieById(array $movies,int $id){
+function getMovieById(array $movies,string $id){
 
 		return array_filter($movies, function($movie) use ($id){
 			return $movie['id'] === $id;
 		});
+		return "movie not found";
 
 }
 
-function getMovieAgeRestriction(array $movie) : string{
-	if (isset($movie)){
-		return $movie['age-restriction'] ."+";
+function getMovieAgeRestriction(string $age_restriction) : string{
+	if (isset($age_restriction)){
+		return $age_restriction ."+";
 	}
+	return "age restriction is empty";
 }
 function getMovieActors(array $movie): string
 {
@@ -96,7 +74,7 @@ function getMovieActors(array $movie): string
 			$str = implode(",", $movie['cast']);
 			return $str;
 	}
-	return "add movies to array";
+	return "cast is empty";
 }
 function getMoviesByTitle(array $movies, string $title)
 {
@@ -106,4 +84,7 @@ function getMoviesByTitle(array $movies, string $title)
 				return $movie;
 		});
 	}
+}
+function getFileName($path):string{
+	return basename($path,);
 }

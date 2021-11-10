@@ -420,7 +420,18 @@ function getMoviesByTitle(array $movies, string $title)
 		});
 	}
 }
+
+
+
+function getMovieTitle(string $title): string
+{
+	if (isset($title))
+	{
+
+		return $title;
+
+	}
+	return "add movies to array";
+}
 $title="Начало";
-$result=var_dump(getMoviesByTitle($movies,$title));
-
-
+$result=var_dump(getMovieTitle($movies,$title));
