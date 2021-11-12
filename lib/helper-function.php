@@ -55,7 +55,7 @@ function getFilmsByGenre(array $movies, string $genres)
 function getMovieById(array $movies,string $id){
 
 		return array_filter($movies, function($movie) use ($id){
-			return $movie['id'] === $id;
+			return strval($movie['id']) === $id;
 		});
 		return "movie not found";
 
@@ -87,4 +87,11 @@ function getMoviesByTitle(array $movies, string $title)
 }
 function getFileName($path):string{
 	return basename($path,);
+}
+function getCurrentGenrePage (string $genre){
+	if (isset($genre)){
+		$currentGenrePage="index.php?genre=".$genre;
+		return $currentGenrePage;
+	}
+	return "genre is empty";
 }

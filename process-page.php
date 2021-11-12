@@ -2,6 +2,7 @@
 declare(strict_types=1);
 require_once "./lib/helper-function.php";
 require_once "./lib/template-functions.php";
+require_once "./app.php";
 /** @var array $movies */
 /** @var array $genres */
 $movieListPage = renderTemplate("./resource/pages/in_process.php", [
@@ -10,5 +11,6 @@ $movieListPage = renderTemplate("./resource/pages/in_process.php", [
 
 renderLayout($movieListPage,[
 	'genres'=>$genres,
-	'currentPage'=>'in_work'
+	'currentPage'=>'in_work',
+	'config'=>$config
 ]);

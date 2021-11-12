@@ -28,49 +28,27 @@ require_once "./lib/helper-function.php";
 			<li class="menu-item">
 
 
-				<?php
-				if ($currentPage === "index"): ?>
-			<li class="menu-item">
-				<a href="index.php" class="menu-item--active">Главная</a>
+			<li class=" menu-item">
+				<a class="menu-item<?= $currentPage === "index"? "--active"
+					: "" ?>" href="index.php">Главная </a>
 			</li>
-			<?php
-			else: ?>
+			<?php foreach($config['menu'] as $code => $name): ?>
 			<li class="menu-item">
-				<a href="index.php">Главная</a>
+				<a class="menu-item<?= $currentPage === $name ? "--active"
+					: "" ?>" href="index.php?genre=<?= $name ?>"><?= $name ?></a>
 			</li>
-			<?php
-			endif; ?>
-			<?php foreach ($genres as $genre): ?>
-				<?php
-				if ($_GET['genre'] === $genre) : ?>
-					<li class="menu-item">
-						<a href="index.php?genre=<?= $genre ?>" class="menu-item--active">
-							<?= $genre ?>
-						</a>
-					</li>
-				<?
-				else: ?>
-
-					<li class="menu-item">
-						<a href="index.php?genre=<?= $genre ?>"><?= $genre ?></a>
-					</li>
-				<?php
-				endif; ?>
 			<?php
 			endforeach; ?>
 
-			<?php
-				if ($currentPage === "in_work"): ?>
+
+
+
+
 				<li class=" menu-item">
-				<a href="index.php" class="menu-item--active">ИЗБРАННОЕ</a>
+					<a class="menu-item<?= $currentPage === "in_work"? "--active"
+						: "" ?>" href="./process-page.php">Избранное </a>
 			</li>
-			<?php
-			else: ?>
-			<li class="menu-item">
-				<a href="./process-page.php">ИЗБРАННОЕ</a>
-			</li>
-			<?php
-			endif; ?>
+
 		</ul>
 	</div>
 	<div class="container">

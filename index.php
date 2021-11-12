@@ -8,19 +8,30 @@ require_once "./app.php";
 /** @var array $genres */
 if (isset($_GET['genre']))
 {
+
 	$movies=getFilmsByGenre($movies, $_GET['genre']);
 	$movieListPage = renderTemplate("./resource/pages/movie-list.php", [
 		'movies' => $movies
 	]);
-}
 
-$movieListPage = renderTemplate("./resource/pages/movie-list.php", [
-'movies' => $movies
-]);
-
-renderLayout($movieListPage,[
+	renderLayout($movieListPage,[
 	'movies' => $movies,
 	'genres'=>$genres,
-	'currentPage'=>'index',
+	'currentPage'=>$_GET['genre'],
 	'config'=>$config
 ]);
+}
+else{
+	$movieListPage = renderTemplate("./resource/pages/movie-list.php", [
+		'movies' => $movies
+	]);
+	renderLayout($movieListPage,[
+		'movies' => $movies,
+		'genres'=>$genres,
+		'currentPage'=>'index',
+		'config'=>$config
+	]);
+
+}
+
+
