@@ -25,3 +25,9 @@ function renderLayout(string $content, array $templateData = []): void
 
 	echo $result;
 }
+function convertRating (string $rating): string{
+	if (isset($rating)){
+		return  number_format($rating, 1, '.','');
+	}
+	return "rating is empty";
+}
