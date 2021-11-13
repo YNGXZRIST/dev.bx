@@ -20,5 +20,7 @@ $movieListPage = renderTemplate("./resource/pages/movie-list.php", [
 
 renderLayout($movieListPage,[
 	'movies' => $movies,
-	'genres'=>$genres
+	'genres'=>$genres,
+	'config'=>$config
+
 ]);
