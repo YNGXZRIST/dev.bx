@@ -45,8 +45,9 @@
 				endfor; ?>
 				<div class="rate-page--num">
 					<div class="page-rating">
-						<?= $movie['rating']; ?>
-						<?= $rating ?>
+
+						<?=convertRating($movie['rating']); ?>
+
 					</div>
 				</div>
 
