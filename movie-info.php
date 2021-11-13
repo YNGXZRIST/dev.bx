@@ -1,6 +1,7 @@
 <?php
 /** @var array $movies */
 /** @var array $genres */
+require_once "./app.php";
 require_once "./resource/db/movies.php";
 require_once "./lib/helper-function.php";
 require_once "./lib/template-functions.php";
@@ -16,5 +17,6 @@ $moviesListPage=renderTemplate("./resource/pages/about-movie.php", [
 
 
 renderLayout($moviesListPage, [
-	'genres' => $genres
+	'genres' => $genres,
+	'config'=>$config
 ]);
