@@ -17,5 +17,13 @@ $config=[
 		'war' => 'Военный',
 		'sport' => 'Спорт',
 		'history' => 'История',
-	]
+	],
+	'db'=>[
+
+	'host' => 'localhost',
+	'username' => 'php',
+	'password' => 'php',
+	'dbName' => 'MovieDB'
+
+],
 ];

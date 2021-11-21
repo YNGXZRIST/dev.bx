@@ -2,13 +2,13 @@
 	<div class="movie-item-page--header">
 
 		<div class="movie--page-header--title">
-			<?= $movie['title'] ?>
+			<?= $movie['TITLE'] ?>
 			<div class="movie--page-header--subtitle">
-				<?= $movie['original-title'] ?>
+				<?= $movie['ORIGINAL_TITLE'] ?>
 				<div class="movie-header--age-rating">
 					<div class="agerate-rectangle">
 						<div class="movies-ageRate">
-							<?= $movie['age-restriction'] . "+" ?>
+							<?= $movie['AGE_RESTRICTION'] . "+" ?>
 						</div>
 					</div>
 				</div>
@@ -23,7 +23,7 @@
 	</div>
 	<div class="movie-page--container">
 		<div class="movie-page--image--container">
-			<div class="movie-page--image" style="background-image: url(./resource/image/<?= $movie['id'] ?>.jpg)">
+			<div class="movie-page--image" style="background-image: url(./resource/image/<?= $movie['ID'] ?>.jpg)">
 
 			</div>
 
@@ -31,7 +31,7 @@
 		<div class="movie-page--info">
 			<div class="movie-page--rating">
 				<?php
-				$rate = floor($movie['rating']) ?>
+				$rate = floor($movie['RATING']) ?>
 				<?
 				for ($i = 0; $i < $rate; $i++): ?>
 					<div class="rate-rectangle--orange">
@@ -46,7 +46,7 @@
 				<div class="rate-page--num">
 					<div class="page-rating">
 
-						<?=convertRating($movie['rating']); ?>
+						<?=convertRating($movie['RATING']); ?>
 
 					</div>
 				</div>
@@ -56,20 +56,20 @@
 				<div class="page--about-movie">О фильме</div>
 				<div class="movie-info--release-date">
 					<div class="release-date"> Год производства:</div>
-					<div class="date"><?= $movie['release-date'] ?></div>
+					<div class="date"><?= $movie['RELEASE_DATE'] ?></div>
 				</div>
 				<div class="movie-info-director">
 					<div class="director-title">Режисер</div>
-					<div class="director-name"><?= $movie['director'] ?></div>
+					<div class="director-name"><?= $movie['DIRECTOR'] ?></div>
 				</div>
 				<div class="page--actor-inform">
 					<div class="actor-list--title">В главных ролях:</div>
-					<div class="actor-list"><?= getMovieActors($movie) ?></div>
+					<div class="actor-list"><?= getMovieActors($movie['CAST']) ?></div>
 				</div>
 			</div>
 			<div class="page--description">Описание</div>
 			<div class="page--movie-description">
-<?=$movie['description']?>
+<?=$movie['DESCRIPTION']?>
 			</div>
 		</div>
 

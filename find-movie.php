@@ -1,17 +1,19 @@
 <?php
 declare(strict_types=1);
-require_once "./lib/helper-function.php";
 require_once "./lib/template-functions.php";
-/** @var array $movies */
-/** @var array $genres */
+require_once "./lib/dbConnectFunction.php";
+require_once "./lib/db-functions.php";
+require_once "./lib/helper-function.php";
+require_once "./app.php";
+
 isset($_POST['title']);
 trim($_POST['title']);
 htmlspecialchars($_POST['title']);
-var_dump($_POST['title']);
+
 if ($_SERVER['REQUEST_METHOD']==="POST"){
-	$movies=(getMoviesByTitle($movies,$_POST['title']));
+	$movies=(getMoviesByTitle(getMovies(),$_POST['title']));
 }
-if ($movies==null){
+if ($movies===null){
 	$movieListPage = renderTemplate("./resource/pages/errors-list.php");
 }
 $movieListPage = renderTemplate("./resource/pages/movie-list.php", [
@@ -20,7 +22,7 @@ $movieListPage = renderTemplate("./resource/pages/movie-list.php", [
 
 renderLayout($movieListPage,[
 	'movies' => $movies,
-	'genres'=>$genres,
+	'genres'=>getGenres(),
 	'config'=>$config
 
 ]);

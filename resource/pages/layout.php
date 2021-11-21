@@ -3,7 +3,7 @@
 /** @var array $movies */
 /** @var string $content */
 /** @var string $currentMenuItem */
-require_once "./resource/db/movies.php";
+
 require_once "./lib/helper-function.php";
 
 ?>
@@ -29,24 +29,22 @@ require_once "./lib/helper-function.php";
 
 
 			<li class=" menu-item">
-				<a class="menu-item<?= $currentPage === "index"? "--active"
+				<a class="menu-item<?= $currentPage === "index" ? "--active"
 					: "" ?>" href="index.php">Главная </a>
 			</li>
-			<?php foreach($config['menu'] as $code => $name): ?>
-			<li class="menu-item">
-				<a class="menu-item<?= $currentPage === $name ? "--active"
-					: "" ?>" href="index.php?genre=<?= $name ?>"><?= $name ?></a>
-			</li>
+			<?php
+			foreach ($config['menu'] as $code => $name): ?>
+				<li class="menu-item">
+					<a class="menu-item<?= $currentPage === $name ? "--active"
+						: "" ?>" href="index.php?genre=<?= $name ?>"><?= $name ?></a>
+				</li>
 			<?php
 			endforeach; ?>
 
 
-
-
-
-				<li class=" menu-item">
-					<a class="menu-item<?= $currentPage === "in_work"? "--active"
-						: "" ?>" href="./process-page.php">Избранное </a>
+			<li class=" menu-item">
+				<a class="menu-item<?= $currentPage === "in_work" ? "--active"
+					: "" ?>" href="./process-page.php">Избранное </a>
 			</li>
 
 		</ul>

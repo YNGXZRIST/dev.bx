@@ -1,5 +1,5 @@
 <?php
-require_once "./resource/db/movies.php";
+//require_once "./resource/db/movies.php";
 
 
 
@@ -17,13 +17,13 @@ function CutMovieDescription(string $description): string
 	return "description is empty";
 }
 
-function getMovieGenres(array $movie): string
+function getMovieGenres(string $genres): string
 {
-	if (isset($movie))
+	if (isset($genres))
 	{
 
-				$str = implode(",", $movie['genres']);
-				$str = mb_strimwidth($str, 0, 30, "...");
+
+		$str = mb_strimwidth($genres, 0, 30, '...');
 
 				return $str;
 
@@ -47,15 +47,16 @@ function getFilmsByGenre(array $movies, string $genres)
 {
 	if (isset($movies)){
 		return array_filter($movies, function($movie) use ($genres){
-			if (in_array($genres, $movie['genres']))
-				return $movie['id'];
+			if (strstr($movie['GENRES'], $genres))
+				return $movie['ID'];
 		});
 	}
+	return "movie by genre not found";
 }
 function getMovieById(array $movies,string $id){
 
 		return array_filter($movies, function($movie) use ($id){
-			return strval($movie['id']) === $id;
+			return strval($movie['ID']) === $id;
 		});
 		return "movie not found";
 
@@ -67,12 +68,12 @@ function getMovieAgeRestriction(string $age_restriction) : string{
 	}
 	return "age restriction is empty";
 }
-function getMovieActors(array $movie): string
+function getMovieActors($cast): string
 {
-	if (isset($movie))
+	if (isset($cast))
 	{
-			$str = implode(",", $movie['cast']);
-			return $str;
+
+			return $cast;
 	}
 	return "cast is empty";
 }
@@ -80,7 +81,7 @@ function getMoviesByTitle(array $movies, string $title)
 {
 	if (isset($movies)){
 		return array_filter($movies, function($movie) use ($title){
-			if ($title===$movie['title'])
+			if ($title===$movie['TITLE'])
 				return $movie;
 		});
 	}
