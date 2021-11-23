@@ -23,7 +23,7 @@ $config=[
 	'host' => 'localhost',
 	'username' => 'php',
 	'password' => 'php',
-	'dbName' => 'MovieDB'
+	'dbName' => 'moviedb'
 
 ],
 ];

@@ -7,34 +7,37 @@ require_once "./lib/helper-function.php";
 require_once "./app.php";
 /** @var array $movies */
 /** @var array $config */
-if (isset($_GET['genre']))
-{
+/** @var object $database */
+$database =connectDataBase();
 
-	$movies=getFilmsByGenre(getMovies(), $_GET['genre']);
-	$movieListPage = renderTemplate("./resource/pages/movie-list.php", [
-		'movies' => $movies
-	]);
+	if (isset($_GET['genre']))
+	{
 
-	renderLayout($movieListPage,[
-	'movies' => $movies,
-	'genres'=> getGenres(),
-	'currentPage'=>$_GET['genre'],
-	'config'=>$config
-]);
-}
-else{
-	$movies=getMovies();
-	$movieListPage = renderTemplate("./resource/pages/movie-list.php", [
-		'movies' => $movies
-	]);
-	renderLayout($movieListPage,[
-		'movies' => $movies,
-		'genres'=>getGenres(),
-		'currentPage'=>'index',
-		'config'=>$config
-	]);
+		$movies=getMovieByGenre( $database, $_GET['genre']);
+		$movieListPage = renderTemplate("./resource/pages/movie-list.php", [
+			'movies' => $movies
+		]);
 
-}
+		renderLayout($movieListPage,[
+			'movies' => $movies,
+			'genres'=> getGenres($database),
+			'currentPage'=>$_GET['genre'],
+			'config'=>$config
+		]);
+	}
+	else{
+		$movies=getMovies($database);
+		$movieListPage = renderTemplate("./resource/pages/movie-list.php", [
+			'movies' => $movies
+		]);
+		renderLayout($movieListPage,[
+			'movies' => $movies,
+			'genres'=>getGenres($database),
+			'currentPage'=>'index',
+			'config'=>$config
+		]);
+
+	}
 
 
 
