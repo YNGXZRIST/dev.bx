@@ -5,7 +5,7 @@ function getGenres(  $database):array{
 	global $database;
 	$query = "SELECT CODE,NAME FROM genre group by CODE, NAME";
 
-	$result = mysqli_query($database, $query);
+	$result = $database->query($query);
 	if (!$result)
 	{
 		trigger_error($database->error, E_USER_ERROR);
@@ -31,7 +31,7 @@ inner join movie_genre mg on genre.ID = mg.GENRE_ID where MOVIE_ID=m.id) as GENR
        FROM movie m
 ";
 
-	$result = mysqli_query($database, $query);
+
 	$result = $database->query($query);
 	if (!$result)
 	{
@@ -60,7 +60,7 @@ function getMovieByGenre (  mysqli $database, string $genre){
 	                                                inner join movie_actor ma on actor.ID = ma.ACTOR_ID where MOVIE_ID=m.id) as CAST
 FROM movie m having   gen like '%$genre%';
 ";
-		$result = $database::query($query);
+		$result = $database->query($query);
 		if (!$result)
 		{
 			trigger_error($database->error, E_USER_ERROR);
