@@ -8,8 +8,8 @@ require_once "./app.php";
 /** @var array $movies */
 /** @var array $config */
 /** @var object $database */
-$database =connectDataBase();
-
+$database =connectDataBase($config);
+if (isset($database)){
 	if (isset($_GET['genre']))
 	{
 
@@ -38,6 +38,18 @@ $database =connectDataBase();
 		]);
 
 	}
+}else{
+	$movies=null;
+	$movieListPage = renderTemplate("./resource/pages/errors-page.php", [
+		'movies' => $movies
+	]);
+	renderLayout($movieListPage,[
+		'movies' => $movies,
+		'genres'=>getGenres($database),
+		'currentPage'=>'index',
+		'config'=>$config
+	]);
+}
 
 
 

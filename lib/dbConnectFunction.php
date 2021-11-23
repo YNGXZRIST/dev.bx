@@ -1,8 +1,6 @@
 <?php
-require_once "./app.php";
-require_once "./lib/db-functions.php";
-/** @var array $config */
-function connectDataBase(){
+
+function connectDataBase(array $config){
 	$database = mysqli_init()  ;
 	$connectionResult = mysqli_real_connect(
 		$database,
