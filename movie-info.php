@@ -9,13 +9,16 @@ require_once "./lib/db-functions.php";
 require_once "./lib/helper-function.php";
 require_once "./lib/template-functions.php";
 $database=connectDataBase($config);
+$actors=getActorsList($database);
+
 if (isset($_GET['id']))
 {
 	$movies=getMovieInfo($database, $_GET['id']);
 
 }
 $moviesListPage=renderTemplate("./resource/pages/about-movie.php", [
-	'movies' => $movies
+	'movies' => $movies,
+	'actors' => $actors
 ]);
 
 

@@ -1,6 +1,7 @@
 <?php
 require_once "./lib/helper-function.php";
-/** @var array $movies */
+/** @var array $movie */
+/** @var array $genres */
 ?>
 <div class="movie-list--item">
 <div class="movie-list--item-overlay">
@@ -19,7 +20,8 @@ require_once "./lib/helper-function.php";
 					<img src="./resource/image/clock.png">
 				</div>
 				<?= formatMovieDuration($movie['duration']) ?></div>
-			<div class="movie-list--item-info"><?= getMovieGenres($movie['GENRES']) ?></div>
+
+			<div class="movie-list--item-info"><?=formatMovieGenres($movie['GENRES']) ?></div>
 		</div>
 	</div>
 

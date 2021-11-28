@@ -3,8 +3,8 @@ require_once "dbConnectFunction.php";
 
 function getGenres($database)
 {
-	global $database;
-	$query = "SELECT CODE,NAME FROM genre group by CODE, NAME";
+
+	$query = "SELECT CODE,NAME FROM genre";
 
 	$result = $database->query($query);
 	if (!$result)
@@ -12,11 +12,29 @@ function getGenres($database)
 		trigger_error($database->error, E_USER_ERROR);
 	}
 
-	return mysqli_fetch_all($result, MYSQLI_ASSOC);
+	$genres= mysqli_fetch_all($result, MYSQLI_ASSOC);
+	$genres = array_combine(array_keys(array_fill(1, count($genres), 0)), array_values($genres));
+	return $genres;
+}
+function getActorsList($database)
+{
+
+	$query = "SELECT id, name FROM actor";
+
+	$result = $database->query($query);
+	if (!$result)
+	{
+		trigger_error($database->error, E_USER_ERROR);
+	}
+
+	$actors= mysqli_fetch_all($result, MYSQLI_ASSOC);
+	$actors = array_combine(array_keys(array_fill(1, count($actors), 0)), array_values($actors));
+	return $actors;
 }
 
-function getMovies(mysqli $database)
+function getMovies(mysqli $database,string $genre=null)
 {
+
 	$query = "SELECT m.ID,
        m.TITLE,
        m.ORIGINAL_TITLE,
@@ -25,12 +43,10 @@ function getMovies(mysqli $database)
        m.AGE_RESTRICTION,
        m.RELEASE_DATE,
        m.RATING,
-       (SELECT  GROUP_CONCAT(name) as name FROM genre
-inner join movie_genre mg on genre.ID = mg.GENRE_ID where MOVIE_ID=m.id) as GENRES,
-       (select name  from director where director.ID=DIRECTOR_ID ) as DIRECTOR,
-       (SELECT  GROUP_CONCAT(name) as CAST FROM actor
-	    inner join movie_actor ma on actor.ID = ma.ACTOR_ID where MOVIE_ID=m.id) as CAST
-       FROM movie m
+    (select name  from director where director.ID=DIRECTOR_ID ) as DIRECTOR,
+       (select GROUP_CONCAT(mg.GENRE_ID) from movie_genre mg where mg.MOVIE_ID = m.ID) as GENRES,
+       (select GROUP_CONCAT(ma.ACTOR_ID) from movie_actor ma where m.ID = ma.MOVIE_ID)as  CAST
+FROM movie m
 ";
 
 	$result = $database->query($query);
@@ -41,11 +57,26 @@ inner join movie_genre mg on genre.ID = mg.GENRE_ID where MOVIE_ID=m.id) as GENR
 
 	return mysqli_fetch_all($result, MYSQLI_ASSOC);
 }
+function getMovieGenres(array $genres, string $name) : array
+{
+	$name = explode(',', $name);
+	return array_map(function($key) use($genres) {
+		return $genres[$key];
+	}, $name);
+}
+function getMovieActors(array $actors, string $listOfActors) : array
+{
+	$listOfActors = explode(',', $listOfActors);
+	return array_map(function($key) use($actors) {
+		return $actors[$key];
+	}, $listOfActors);
+}
 
 function getMovieByGenre(mysqli $database, string $genre)
 {
 	if (isset($genre))
 	{
+		$genre=mysqli_escape_string($database,$genre);
 		$query = "
 SELECT m.ID,
        m.TITLE,
@@ -55,13 +86,12 @@ SELECT m.ID,
        m.AGE_RESTRICTION,
        m.RELEASE_DATE,
        m.RATING,
-       (SELECT  GROUP_CONCAT(name) as name FROM genre
-	    inner join movie_genre mg on genre.ID = mg.GENRE_ID WHERE mg.MOVIE_ID =m.ID
-       ) as GENRES,
-       (select name  from director where director.ID=DIRECTOR_ID ) as DIRECTOR,
-       (SELECT  GROUP_CONCAT(name) as CAST FROM actor
-inner join movie_actor ma on actor.ID = ma.ACTOR_ID where MOVIE_ID=m.id and m.id=m.id) as CAST
-FROM movie m having GENRES like '%$genre%'
+    (select name  from director where director.ID=DIRECTOR_ID ) as DIRECTOR,
+       (select GROUP_CONCAT(mg.GENRE_ID) from movie_genre mg where mg.MOVIE_ID = m.ID) as GENRES,
+       (select GROUP_CONCAT(ma.ACTOR_ID) from movie_actor ma where m.ID = ma.MOVIE_ID)as  CAST
+FROM movie m
+INNER JOIN movie_genre m_g on m.ID = m_g.MOVIE_ID
+INNER JOIN genre g on m_g.GENRE_ID = g.ID AND g.NAME = '$genre'
 ";
 		$result = $database->query($query);
 		if (!$result)
@@ -71,11 +101,14 @@ FROM movie m having GENRES like '%$genre%'
 
 		return mysqli_fetch_all($result, MYSQLI_ASSOC);
 	}
+	return "Жанр не выбран";
 }
 
 function getMovieInfo(mysqli $database, string $id)
 {
-	$query = "
+	if (isset($id)){
+$id=mysqli_escape_string($database,$id);
+$query = "
 SELECT m.ID,
        m.TITLE,
        m.ORIGINAL_TITLE,
@@ -84,19 +117,20 @@ SELECT m.ID,
        m.AGE_RESTRICTION,
        m.RELEASE_DATE,
        m.RATING,
-       (SELECT  GROUP_CONCAT(name) as name FROM genre
-	     inner join movie_genre mg on genre.ID = mg.GENRE_ID WHERE mg.MOVIE_ID = $id) as GENRES,
-       (select name  from director where director.ID=DIRECTOR_ID ) as DIRECTOR,
-       (SELECT  GROUP_CONCAT(name) as CAST FROM actor
-	                                                inner join movie_actor ma on actor.ID = ma.ACTOR_ID where MOVIE_ID=m.id and m.id=$id) as CAST
+    (select name  from director where director.ID=DIRECTOR_ID ) as DIRECTOR,
+       (select GROUP_CONCAT(mg.GENRE_ID) from movie_genre mg where mg.MOVIE_ID = m.ID) as GENRES,
+       (select GROUP_CONCAT(ma.ACTOR_ID) from movie_actor ma where m.ID = ma.MOVIE_ID)as  CAST
+	    
 FROM movie m where m.ID=$id
 ";
-	$result = $database->query($query);
-	if (!$result)
-	{
-		trigger_error($database->error, E_USER_ERROR);
-	}
+		$result = $database->query($query);
+		if (!$result)
+		{
+			trigger_error($database->error, E_USER_ERROR);
+		}
 
-	return mysqli_fetch_all($result, MYSQLI_ASSOC);
+		return mysqli_fetch_all($result, MYSQLI_ASSOC);
+	}
+	return "Фильм не выбран";
 }
 

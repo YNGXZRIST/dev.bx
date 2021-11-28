@@ -64,7 +64,7 @@
 				</div>
 				<div class="page--actor-inform">
 					<div class="actor-list--title">В главных ролях:</div>
-					<div class="actor-list"><?= getMovieActors($movie['CAST']) ?></div>
+					<div class="actor-list"><?= formatMovieActors($movie['CAST']) ?></div>
 				</div>
 			</div>
 			<div class="page--description">Описание</div>

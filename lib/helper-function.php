@@ -17,19 +17,8 @@ function CutMovieDescription(string $description): string
 	return "description is empty";
 }
 
-function getMovieGenres(string $genres): string
-{
-	if (isset($genres))
-	{
 
 
-		$str = mb_strimwidth($genres, 0, 30, '...');
-
-				return $str;
-
-	}
-	return " genres not found";
-}
 
 function formatMovieDuration(string $duration): string
 {
@@ -68,15 +57,7 @@ function getMovieAgeRestriction(string $age_restriction) : string{
 	}
 	return "age restriction is empty";
 }
-function getMovieActors($cast): string
-{
-	if (isset($cast))
-	{
 
-			return $cast;
-	}
-	return "cast is empty";
-}
 function getMoviesByTitle(array $movies, string $title)
 {
 	if (isset($movies)){
@@ -95,4 +76,17 @@ function getCurrentGenrePage (string $genre){
 		return $currentGenrePage;
 	}
 	return "genre is empty";
+}
+function formatMovieGenres(array $movie){
+	$genres=implode(',', array_column($movie, 'NAME'));
+	$genres = mb_strimwidth($genres, 0, 30, "...");
+	return $genres;
+
+}
+function formatMovieActors(array $movie):string{
+
+	$actors=implode(',', array_column($movie, 'name'));
+
+	return $actors;
+
 }
